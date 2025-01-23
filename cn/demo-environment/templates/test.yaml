@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  finalizers:
+  - "resources-finalizer.argocd.argoproj.io"
+  labels:
+    test: "test"
+  name: "test"
+spec:
+  destination:
+    namespace: "test"
+    server: "https://kubernetes.default.svc"
+  project: "cn"
+  source:
+    path: "custom-domain/test"
+    repoURL: "https://github.com/Romanecek/customer-romisek-managed-components.git"
+    targetRevision: "HEAD"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: "1s"
+        factor: 1
+        maxDuration: "1m"
+      limit: 1
